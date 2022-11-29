@@ -7,28 +7,31 @@ import os
 import sys
 
 
-def print_usage(todo_script):
-    ''' print usage information '''
-    print(f'\nusage: {todo_script} [-had] text')
-    print('\ta "text to add     # add task')
-    print('\td <number>         # delete task')
-    print('\tl (or no argument  # list tasks\n')
+def print_usage():
+    ''' print program usage '''
+    usage = ' '.join(('\nUsage: todo.py [-adh] "text to add"',
+                      '\n\ta "text to add     # add task',
+                      '\n\td <number>         # delete task'
+                      '\n\tl (or no argument)  # list tasks\n'))
+    return usage
 
 
 def handle_arguments(fname, args):
     ''' simple argument handling '''
     if len(args) == 1:          # no args, all
-        read_file(fname)
+        print(read_file(fname))
         return
     if args[1] == '-h' or args[1] == '--help' or len(args) > 3:
-        print_usage(args[1])
+        print(print_usage())
         return
     if args[1] == 'l':          # list all
-        read_file(fname)
+        print(read_file(fname))
     if args[1] == 'a':          # add entry
-        add_entry(fname, args[2])
+        print(add_entry(fname, args[2]))
     if args[1] == 'd':          # remove entry
-        delete_entry(fname, args[2])
+        msg = delete_entry(fname, args[2])
+        if msg:
+            print(msg)
     return
 
 
@@ -38,8 +41,8 @@ def read_file(fname):
         with open(fname,'r', encoding='UTF-8') as fhandle:
             entries = fhandle.read().splitlines()
         for count, msg in enumerate(entries, start=1):
-            print(f'{count:<3} {msg}')
-
+            return f'{count:<3} {msg}'
+    return '<empty list>'
 
 def add_entry(fname, msg):
     ''' add a new item to TODO list '''
@@ -48,7 +51,7 @@ def add_entry(fname, msg):
         mode = 'a'
     with open(fname, mode, encoding='UTF-8') as fhandle:
         fhandle.write(msg + '\n')
-    print(f'Added: {msg}')
+    return f'Added: {msg}'
 
 
 def delete_entry(fname, number):
@@ -61,7 +64,7 @@ def delete_entry(fname, number):
                 entries = fhandle.read().splitlines()
             for count, msg in enumerate(entries, start=1):
                 if count == number:
-                    print(f'Removed {msg}')
+                    return_msg = f'Removed {msg}'
                 else:
                     new_todos.append(msg)
         if new_todos:
@@ -70,6 +73,9 @@ def delete_entry(fname, number):
                     fhandle.write(msg + '\n')
         else:
             os.remove(fname)
+    else:
+        return_msg = '-- Not a line number --'
+    return return_msg
 
 
 def main():

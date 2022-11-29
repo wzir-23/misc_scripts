@@ -1,9 +1,18 @@
 # misc_scripts
-Random tools I've put together to simplyfy my life inside a terminal
+Random tools I've put together to simplify my life inside a terminal
+
+### Tests
+For running the tests, you need to install the "coverage" package, preferably with pip from venv and run the
+tests by executing the following commands:
+```
+coverage run --source '.' -m unittest -v
+coverage report -m
+```
+
 
 ## copy_images_to_EXIF_date_structure.py
 I use a photo management workflow outside the MacOS ecosystem where I first
-copy all iPhone/iPad files to the filesystem using PhotoSync, then copy the
+copy all iPhone/iPad files to the file system using PhotoSync, then copy the
 images to a date based file structure (i.e YYYY/MM/DD) using this script.
 
 Dependencies:
