@@ -18,17 +18,17 @@ def print_usage():
 
 def handle_arguments(fname, args):
     ''' simple argument handling '''
-    if len(args) == 1:          # no args, all
+    if len(args) == 1:          # no args, list tasks
         print(read_file(fname))
         return
     if args[1] == '-h' or args[1] == '--help' or len(args) > 3:
         print(print_usage())
         return
-    if args[1] == 'l':          # list all
+    if args[1] == 'l' or args[1] == 'list':  # list all
         print(read_file(fname))
-    if args[1] == 'a':          # add entry
+    if args[1] == 'a' or args[1] == 'add':   # add entry
         print(add_entry(fname, args[2]))
-    if args[1] == 'd':          # remove entry
+    if args[1] == 'd' or args[1] == 'del':   # remove entry
         msg = delete_entry(fname, args[2])
         if msg:
             print(msg)
@@ -43,6 +43,7 @@ def read_file(fname):
         for count, msg in enumerate(entries, start=1):
             return f'{count:<3} {msg}'
     return '<empty list>'
+
 
 def add_entry(fname, msg):
     ''' add a new item to TODO list '''
