@@ -19,15 +19,15 @@ def print_usage():
 def handle_arguments(fname, args):
     ''' simple argument handling '''
     if len(args) == 1:          # no args, list tasks
-        print(read_file(fname))
+        print_list(read_file(fname))
         return
-    if args[1] == '-h' or args[1] == '--help' or len(args) > 3:
+    if args[1] == '-h' or args[1] == '--help':
         print(print_usage())
         return
     if args[1] == 'l' or args[1] == 'list':  # list all
-        print(read_file(fname))
+        print_list(read_file(fname))
     if args[1] == 'a' or args[1] == 'add':   # add entry
-        print(add_entry(fname, args[2]))
+        print(add_entry(fname, args[2:]))
     if args[1] == 'd' or args[1] == 'del':   # remove entry
         msg = delete_entry(fname, args[2])
         if msg:
@@ -37,22 +37,27 @@ def handle_arguments(fname, args):
 
 def read_file(fname):
     ''' read TODO file and print contents '''
+    messages = []
     if os.path.isfile(fname):
         with open(fname,'r', encoding='UTF-8') as fhandle:
             entries = fhandle.read().splitlines()
         for count, msg in enumerate(entries, start=1):
-            return f'{count:<3} {msg}'
-    return '<empty list>'
+            messages.append('%3d   %s' % (count, msg))
+        if len(messages) > 0:
+            return messages
+    return ['<empty list>']
 
 
 def add_entry(fname, msg):
     ''' add a new item to TODO list '''
+    #entry = ' '.join([word for word in msg])
+    entry = ' '.join(msg)
     mode = 'w'
     if os.path.isfile(fname):
         mode = 'a'
     with open(fname, mode, encoding='UTF-8') as fhandle:
-        fhandle.write(msg + '\n')
-    return f'Added: {msg}'
+        fhandle.write(entry + '\n')
+    return f'Added: {entry}'
 
 
 def delete_entry(fname, number):
@@ -77,6 +82,12 @@ def delete_entry(fname, number):
     else:
         return_msg = '-- Not a line number --'
     return return_msg
+
+
+def print_list(msg):
+    ''' pretty print list '''
+    for line in msg:
+        print(line)
 
 
 def main():
