@@ -14,36 +14,38 @@ class TestTodoScript(unittest.TestCase):
     #     self.assertEqual(todo.handle_arguments('test.txt', ['./todo.py', 'a', 'a test']),
     #                      'Added: test')
 
-    def test_1_add_entry(self):
-        """ test adding new entry to TODO list """
-        self.assertEqual(todo.add_entry('test.txt', 'test'), 'Added: test')
+    def test_1a_add_entry(self):
+        """ test adding singular word to TODO list """
+        self.assertEqual(todo.add_entry('test.txt', 'test'), 'Added: t e s t')
+
+
+    def test_1b_add_entry(self):
+        """ test adding multiple unquoted words to TODO list """
+        self.assertEqual(todo.add_entry('test.txt', 'test test'), 
+                                        'Added: t e s t   t e s t')
 
 
     def test_2a_read_file(self):
         """ test reading TODO list without argument """
-        self.assertEqual(todo.read_file('test.txt'), '1   test')
-
-
-    def test_2b_read_file(self):
-        """ test reading TODO list """
-        self.assertEqual(todo.read_file('test.txt'), '1   test')
-
-
-    def test_3_add_entry(self):
-        """ test appending entry to TODO list """
-        self.assertEqual(todo.add_entry('test.txt', 'test'), 'Added: test')
+        self.assertEqual(todo.read_file('test.txt'), 
+                                        ['  1   t e s t', 
+                                         '  2   t e s t   t e s t'])
 
 
     def test_4a_delete_entry(self):
+        """ remove item from TODO list """
+        self.assertEqual(todo.delete_entry('test.txt', '1'), 'Removed t e s t')
+
+    def test_4b_delete_invalid_entry(self):
         """ test removing item by giving non-numerical argument """
         self.assertEqual(todo.delete_entry('test.txt', 'apa'), '-- Not a line number --')
 
-
-    def test_4b_delete_entry(self):
+    def test_4b_delete_last_entry(self):
         """ remove item from TODO list """
-        self.assertEqual(todo.delete_entry('test.txt', '1'), 'Removed test')
+        # we do not test for file removal here. Yet.
+        self.assertEqual(todo.delete_entry('test.txt', '1'), 
+                                           'Removed t e s t   t e s t')
 
-
-    def test_4_delete_entry(self):
-        """ remove item from TODO list """
-        self.assertEqual(todo.delete_entry('test.txt', '1'), 'Removed test')
+    def test_5a_read_no_file(self):
+        """ test reading TODO list without argument """
+        self.assertEqual(todo.read_file('test.txt'), ['<empty list>'])

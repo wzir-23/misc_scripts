@@ -50,7 +50,6 @@ def read_file(fname):
 
 def add_entry(fname, msg):
     ''' add a new item to TODO list '''
-    #entry = ' '.join([word for word in msg])
     entry = ' '.join(msg)
     mode = 'w'
     if os.path.isfile(fname):
