@@ -1,3 +1,9 @@
+# My own temporary logfile
+logfile.txt
+
+# Vim swap files
+*.swp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
