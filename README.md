@@ -23,6 +23,16 @@ Usage:
 ./copy_images_to_EXIF_date_structure.py <image_folder>
 ```
 
+## futhark.py
+Transliterate from the latin alphabet and som different futharks (runic
+alohabets) and vice versa
+
+Usage:
+```
+boran@amair:~/repos/git/public_wzir/misc_scripts> ./futhark.py
+Enter text: Thorleif reste denna sten
+```
+
 ## todo.py
 A simple tool for managing a TODO list stored as .todo.txt in the home
 directory. Create a link 't' in your bin directory for easier access to it.
