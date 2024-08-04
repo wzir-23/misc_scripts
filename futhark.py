@@ -85,7 +85,7 @@ anglo_saxon = {
     'st': 'ᛥ'
     }
 
-elder_futhark = { 
+elder_futhark = {
     'f': 'ᚠ',
     'u': 'ᚢ',
     't': 'ᚦ',
@@ -153,6 +153,7 @@ younger_futhark_st = {
 
 
 def to_runes(futhark, text):
+    ''' transliterate alphabet to runes '''
     text = text.lower()
     for k, v in futhark.items():
         text = text.replace(k, v)
@@ -160,6 +161,7 @@ def to_runes(futhark, text):
 
 
 def to_text(futhark, text):
+    ''' transliterate runes to alphabet '''
     text = text.lower()
     for k, v in futhark.items():
         text = text.replace(v, k)
