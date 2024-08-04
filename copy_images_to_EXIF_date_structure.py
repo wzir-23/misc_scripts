@@ -18,7 +18,6 @@ IMAGES = 1
 MOVIES = 2
 
 
-# Filmformat: .mov, .mp4, .3gp,
 def find_image_files(filepath):
     ''' searches for images and movies in the supplied filepath based on file
         suffix
@@ -91,11 +90,22 @@ def create_dir(directory):
         os.makedirs(new_dir)
 
 
+def unique_fname(fname, dst_dir):
+    ''' generate unique name if target filename already exists '''
+    counter = 1
+    name, extension = os.path.splitext(fname)
+    while os.path.exists(os.path.join(dst_dir, os.path.basename(fname))):
+        fname = f"{name}_{counter}{extension}"
+        counter += 1
+    return os.path.basename(fname)
+
+
 def copy_file(fname, destination):
     ''' copies files '''
     create_dir(destination)
-    shutil.copy2(fname, destination)
-    copy_meta_file(fname, destination)
+    new_fname = unique_fname(fname, destination)
+    shutil.copy2(fname, os.path.join(destination, new_fname))
+    copy_meta_file(fname, os.path.join(destination, new_fname))
 
 
 def copy_meta_file(fname, destination):
